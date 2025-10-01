@@ -11,7 +11,9 @@ import os
 fastf1.ergast.interface.BASE_URL = "https://api.jolpi.ca/ergast/f1"
 
 RAW_PATH = "data/raw/kaggle_F1_data"
-PROCESSED_PATH = "data/processed/final_dataset.csv"
+PROCESSED_PATH = "data/processed"
+os.makedirs(PROCESSED_PATH, exist_ok=True)
+
 
 # valid seasons
 TRAIN_SEASONS = list(range(2010, 2022))     # training data, consistent rules 
@@ -131,13 +133,54 @@ def compute_features(df, exclude_current_race=False, only_past_data=False):
 
 
 
+def get_2025_data():
+    for season in PREDICT_SEASONS:
+        races_list = fastf1.ergast.get_season(season).get_races()
+        rows = []
+
+        for race in races_list:
+            race_id = race["raceId"]
+            round_num = race["round"]
+            race_name = race["raceName"]
+            circuit = race["Circuit"]["circuitName"]
+
+            for driver in race["Results"]:
+                driver_id = driver["Driver"]["driverId"]
+                constructor_id = driver["Constructor"]["constructorId"]
+                qualifying_pos = driver.get("grid", None)
+
+                rows.append({
+                    "raceId" : race_id,
+                    "round" : round_num,
+                    "raceName" : race_name,
+                    "circuit" : circuit,
+                    "driverId" : driver_id,
+                    "constructorId" : constructor_id,
+                    "qualifying_pos" : qualifying_pos
+                })
+    df_2025 = pd.DataFrame(rows)
+    return df_2025
+
+def split_and_save(df):
+    train_df = df[df["year"].isin(TRAIN_SEASONS)]
+    test_df = df[df["year"].isin(TEST_SEASONS)]
+    predict_df = df[df["year"].isin(PREDICT_SEASONS)]
+
+    train_df = compute_features(train_df)
+    test_df = compute_features(test_df, exclude_current_race=True)
+    predict_df = compute_features(predict_df, only_past_data=True)
+
+    train_df.to_csv(os.path.join(PROCESSED_PATH, "train.csv"), index=False)
+    test_df.to_csv(os.path.join(PROCESSED_PATH, "test.csv"), index=False)
+    predict_df.to_csv(os.path.join(PROCESSED_PATH, "predict.csv"), index=False)
+
+    print(f"proccessed data saved to {PROCESSED_PATH}")
 
 
-
-
-_
 if __name__ == "__main__":
-    print("Data processing complete. Processed data saved to", PROCESSED_PATH)
+    datasets = load_raw_data()
+    df = merge_data(datasets)
+    split_and_save(df)
 
 
 
