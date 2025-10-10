@@ -14,10 +14,14 @@ def merge_data(datasets, weather_df=None):
     df = df.merge(constructors[["constructorId", "name"]], on="constructorId", how="left")
     df = df.merge(qualifying[["raceId", "driverId", "q1", "q2", "q3"]], on=["raceId", "driverId"], how="left")
 
-    if weather_df is not None:
-        df = df.merge(weather_df, on=["year", "round"], how="left")
+    if weather_df is not None and not weather_df.empty:
+        df = df.merge(
+            weather_df, 
+            on=["year", "round"], 
+            how="left"
+        )
 
-    df = df.dropna(subset=["postitionOrder"])
+    df = df.dropna(subset=["positionOrder"])
     df["positionOrder"] = df["positionOrder"].astype(int)
 
     return df
