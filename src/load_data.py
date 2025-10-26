@@ -10,12 +10,13 @@ def load_raw_data():
         "driver_standings", "drivers", "lap_times", "pit_stops", "qualifying",
         "races", "results", "seasons", "sprint_results", "status"
     ]
+    return {f: pd.read_csv(os.path.join(RAW_PATH, f"{f}.csv")) for f in files}
 
-    datasets = {}
-    for file in files:
-        path = os.path.join(RAW_PATH, f"{file}.csv")
-        datasets[file] = pd.read_csv(path)
-    return datasets
+    # datasets = {}
+    # for file in files:
+    #     path = os.path.join(RAW_PATH, f"{file}.csv")
+    #     datasets[file] = pd.read_csv(path)
+    # return datasets
 
 
 # def get_2025_data():
