@@ -24,5 +24,8 @@ def merge_data(datasets, weather_df=None):
     df = df.dropna(subset=["positionOrder"])
     df["positionOrder"] = df["positionOrder"].astype(int)
 
+    df["is_post22"] = (df["year"] >= 2022).astype(int)
+    df["year_norm"] = df["year"] - df["year"].min()
+
     return df
     
