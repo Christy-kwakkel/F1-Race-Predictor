@@ -1,6 +1,3 @@
-#@id:chat.disableAIFeatures
-
-
 from load_data import load_raw_data
 from weather_data import get_weather_data
 from merge_data import merge_data

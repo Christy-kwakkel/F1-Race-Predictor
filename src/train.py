@@ -15,7 +15,7 @@ def training_model():
     # weights = np.where(train_df["is_post2022"] == 1, 3.0, 1.0)
 
     # features (X) and target (y)
-    features = ["driver_form", "constructor_form", "grid", "ispost2022"]
+    features = ["driver_form", "constructor_form", "grid", "is_post2022"]
     X_train, y_train = train_df[features], train_df["positionOrder"]
     X_test, y_test = test_df[features], test_df["positionOrder"]
 
@@ -28,7 +28,7 @@ def training_model():
     
     mae = mean_absolute_error(y_test, model.predict(scaler.transform(X_test)))
     print("Mean Absolute Error: ", mae)
-    joblib.dump((model.scaler), "../data/processed/GBR_model.pkl")
+    joblib.dump((model, scaler), "../data/processed/GBR_model.pkl")
     print("model saved")
 
 if __name__ == "__main__":

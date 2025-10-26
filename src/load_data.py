@@ -2,7 +2,9 @@ import os
 import pandas as pd
 
 
-RAW_PATH = "../data/raw/kaggle_F1_data"
+RAW_PATH = "C:/Users/chris/OneDrive/Desktop/Personal Project year 2/Personal-Project/data/raw/kaggle_F1_data"
+os.makedirs(RAW_PATH, exist_ok=True)
+print("directory made/exists")
 
 def load_raw_data():
     files = [

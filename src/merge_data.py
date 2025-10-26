@@ -18,8 +18,8 @@ def merge_data(datasets, weather_df=None):
 
     if weather_df is not None and not weather_df.empty:
         df = df.merge(
-            weather_df, 
-            on=["year", "round"], 
+            results[["raceId", "driverId", "grid"]],
+            on=["raceId", "driverId"], 
             how="left"
         )
 

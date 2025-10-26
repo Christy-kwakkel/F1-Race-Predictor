@@ -8,7 +8,7 @@ def predict_race(year, location):
     race_df = df[(df["year"] == year) & (df["location"].str.lower() == location.lower())]
 
     features = ["driver_form", "constructor_form", "grid", "is_post2022"]
-    preds = model.predict(scaler.transfrom(race_df[features]))
+    preds = model.predict(scaler.transform(race_df[features]))
     race_df["predicted_position"] = np.round(preds)
     race_df = race_df.sort_values("predicted_position").reset_index(drop=True)
     print(race_df[["surname", "name_y", "predicted_position"]])
