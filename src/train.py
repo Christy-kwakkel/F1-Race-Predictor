@@ -1,4 +1,6 @@
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import cross_val_score
 from sklearn.metrics import mean_absolute_error
 import pandas as pd
 import joblib
@@ -8,33 +10,26 @@ def training_model():
     # load the training and testing csv files
     train_df = pd.read_csv("../data/processed/train.csv")
     test_df = pd.read_csv("../data/processed/test.csv")
-    predict_df = pd.read_csv("../data/processed/predict.csv")
 
     # weights
-    weights = np.where(train_df["is_post2022"] == 1, 3.0, 1.0)
+    # weights = np.where(train_df["is_post2022"] == 1, 3.0, 1.0)
 
     # features (X) and target (y)
-    X_train = train_df[["driver_form", "constructor_form", "grid"]]
-    y_train = train_df["positionOrder"]
-
-    X_test = test_df[["driver_form", "constructor_form", "grid"]]
-    y_test = test_df["positionOrder"]
+    features = ["driver_form", "constructor_form", "grid", "ispost2022"]
+    X_train, y_train = train_df[features], train_df["positionOrder"]
+    X_test, y_test = test_df[features], test_df["positionOrder"]
 
     # model
-    model = RandomForestRegressor(n_estimators=200, random_state=42)
-    model.fit(X_train, y_train, sample_weight=weights)
+    scaler = StandardScaler().fit(X_train)
+    model = GradientBoostingRegressor(n_estimators=400, learning_rate=0.03, random_state=42)
+    model.fit(scaler.transform(X_train), y_train)
 
     # evaluation
-    y_pred = model.predict(X_test)
-    mae = mean_absolute_error(y_test, y_pred)
+    
+    mae = mean_absolute_error(y_test, model.predict(scaler.transform(X_test)))
     print("Mean Absolute Error: ", mae)
-
-    # saving the model
-    joblib.dump(model, "../data/processed/RF_model.pkl")
-    print("saved model")
-
-
-
+    joblib.dump((model.scaler), "../data/processed/GBR_model.pkl")
+    print("model saved")
 
 if __name__ == "__main__":
     training_model()
