@@ -21,3 +21,17 @@ models/
 # Ignore OS-specific files
 .DS_Store
 Thumbs.db
+
+# Ignore FastF1 cache and large files
+data/external/fastf1_cache/
+*.sqlite
+
+# Ignore logs, temporary files, and IDE files
+*.log
+*.tmp
+.vscode/
+.idea/
+
+# Ignore local environment files (if used)
+.env
+.env.local
