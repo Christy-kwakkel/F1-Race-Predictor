@@ -40,6 +40,7 @@ def build_and_save_features():
     all_seasons = sorted(set(TRAIN_SEASONS + TEST_SEASONS + PREDICT_SEASONS))
     df = build_fastf1_base(all_seasons)          # ← ADD THIS LINE (missing!)
     
+    
     df = maybe_patch_weather_with_api(df)
     df = add_driver_form_features(df)
     df = add_team_form_features(df)
