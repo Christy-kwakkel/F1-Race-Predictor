@@ -6,5 +6,5 @@ venv\Scripts\Activate.ps1
 
 python -m scripts.predict_race
 python -m scripts.run_training
-python -m scripts.predict_2024
+python -m scripts.save_2024_results
 
