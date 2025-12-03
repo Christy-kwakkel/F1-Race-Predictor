@@ -20,6 +20,18 @@ def predict_single_race(season: int, round_num: int) -> pd.DataFrame:
     race_df["pred_rank"] = range(1, len(race_df) + 1)
     return race_df[["season", "round", "driver_code", "team_name", "pred_pos", "pred_rank"]]
 
+def predict_single_season(season: int) -> pd.DataFrame:
+    df,feature_cols, model = _load_base()
+    race_df = df[(df["season"] == season)].copy()
+    if race_df.empty:
+        raise ValueError(f"No features found foder season {season}")
+    
+    preds = model.predict(race_df[feature_cols])
+    race_df["pred_pos"] = preds
+    race_df = race_df.sort_values("pred_pos").copy()
+    race_df["pred_rank"] = range(1, len(race_df) + 1)
+    return race_df[["season", "round", "driver_code", "team_name", "pred_pos", "pred_rank"]]
+
 def predict_all_for_seasons(seasons=None) -> pd.DataFrame:
     df, feature_cols, model = _load_base()
     if seasons is None:
