@@ -1,7 +1,7 @@
 from src.model.predict import predict_single_race
 
 def main():
-    season = int(2024)        #(input("Enter race season (e.g. 2024): ").strip())
+    season = int(input("Enter race season (e.g. 2024): ").strip())
     rnd = int(input("Enter race round number (e.g. 1): ").strip())
     preds_df = predict_single_race(season, rnd)
 
