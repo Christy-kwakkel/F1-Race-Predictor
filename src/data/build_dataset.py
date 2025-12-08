@@ -10,7 +10,7 @@ def maybe_patch_weather_with_api(df):
     kaggle = load_kaggle_core()
     races = kaggle["races"]
     circuits = kaggle["circuits"]
-    races = races.merge(circuits, on="circuitId", how="left")
+    races = races.merge(circuits, on="circuitId", how="left", suffixes=("", "_circuit"))
     races["race_key"] = list(zip(races["year"], races["round"]))
     race_meta = races.set_index("race_key")
 
@@ -46,6 +46,7 @@ def attach_circuit_info(df: pd.DataFrame) -> pd.DataFrame:
         circuits[["circuitId", "name", "location", "country"]],
         on="circuitId",
         how="left",
+        suffixes=("", "_circuit")
     )    
 
     races["race_key"] = list(zip(races["year"], races["round"]))
@@ -55,7 +56,7 @@ def attach_circuit_info(df: pd.DataFrame) -> pd.DataFrame:
     df["race_key"] = list(zip(df["season"], df["round"]))
 
     df = df.merge(
-        race_meta[["circuitId", "name", "location", "country"]],
+        race_meta[["circuitId", "name_circuit", "location", "country"]],
         on="race_key",
         how="left"
     )
@@ -63,7 +64,7 @@ def attach_circuit_info(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop(columns=["race_key"])
 
     df["circuit_key"] = (
-        df["name"]
+        df["name_circuit"]
         .fillna("")
         .str.lower()
         .str.replace(" ", "_")
@@ -76,7 +77,7 @@ def build_and_save_features():
     all_seasons = sorted(set(TRAIN_SEASONS + TEST_SEASONS + PREDICT_SEASONS))
     df = build_fastf1_base(all_seasons)      
     
-    df = attach_circuit_info(df)
+    #df = attach_circuit_info(df)
     df = maybe_patch_weather_with_api(df)
     df = add_driver_form_features(df)
     df = add_team_form_features(df)
