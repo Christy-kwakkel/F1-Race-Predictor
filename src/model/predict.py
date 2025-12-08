@@ -1,7 +1,7 @@
 import lightgbm as lgb
 import pandas as pd
 import unicodedata
-from config import FEATURES_PATH, MODEL_PATH, PREDICT_SEASONS
+from config import FEATURES_PATH, MODEL_PATH, PREDICT_SEASONS, GP_NAME_MAPPING
 
 def _load_base():
     df = pd.read_parquet(FEATURES_PATH)
@@ -15,38 +15,16 @@ def _normalize(text: str) -> str:
     text = "".join(c for c in unicodedata.normalize("NFKD", text) if not unicodedata.combining(c))
     return text.replace("-", " ").replace("_", " ").strip()
 
-def resolve_circuit_query(query: str, season: int | None = None) -> pd.DataFrame:
-    """Resolve 'monaco', 'yas marina', 'spa', etc. → matching races."""
-    df = pd.read_parquet(FEATURES_PATH)
+def resolve_gp_name(gp_name: str) -> tuple[int, int]:
+    """Map 'Monaco Grand Prix' → (season, round)."""
+    gp_name = gp_name.lower().strip()
     
-    # Filter by season if provided
-    if season is not None:
-        df = df[df["season"] == season]
+    for key, (location, round_num) in GP_NAME_MAPPING.items():
+        if key in gp_name or gp_name in key:
+            print(f"✅ Found: {gp_name} → Round {round_num}")
+            return None, round_num  # season=None (all seasons), specific round
     
-    # Get unique races with circuit info
-    races = (
-        df[["season", "round", "name_circuit", "location", "country", "circuit_key"]]
-        .drop_duplicates(subset=["season", "round"])
-        .copy()
-    )
-    
-    # Normalize all text fields
-    races["norm_circuit"] = races["name_circuit"].fillna("").map(_normalize)
-    races["norm_location"] = races["location"].fillna("").map(_normalize)
-    races["norm_country"] = races["country"].fillna("").map(_normalize)
-    races["norm_key"] = races["circuit_key"].fillna("").map(_normalize)
-    
-    q = _normalize(query)
-    
-    # Fuzzy match across all fields
-    mask = (
-        races["norm_circuit"].str.contains(q, na=False) |
-        races["norm_location"].str.contains(q, na=False) |
-        races["norm_country"].str.contains(q, na=False) |
-        races["norm_key"].str.contains(q, na=False)
-    )
-    
-    return races[mask].sort_values(["season", "round"])
+    raise ValueError(f"GP '{gp_name}' not found. Try: monaco grand prix, abu dhabi grand prix, etc.")
 
 
 def predict_single_race(season: int, round_num: int) -> pd.DataFrame:

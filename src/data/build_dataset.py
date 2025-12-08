@@ -46,7 +46,6 @@ def attach_circuit_info(df: pd.DataFrame) -> pd.DataFrame:
         circuits[["circuitId", "name", "location", "country"]],
         on="circuitId",
         how="left",
-        suffixes=("", "_circuit")
     )    
 
     races["race_key"] = list(zip(races["year"], races["round"]))
@@ -56,7 +55,7 @@ def attach_circuit_info(df: pd.DataFrame) -> pd.DataFrame:
     df["race_key"] = list(zip(df["season"], df["round"]))
 
     df = df.merge(
-        race_meta[["circuitId", "name_circuit", "location", "country"]],
+        race_meta[["circuitId", "name", "location", "country"]],
         on="race_key",
         how="left"
     )
@@ -64,7 +63,7 @@ def attach_circuit_info(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop(columns=["race_key"])
 
     df["circuit_key"] = (
-        df["name_circuit"]
+        df["name"]
         .fillna("")
         .str.lower()
         .str.replace(" ", "_")
