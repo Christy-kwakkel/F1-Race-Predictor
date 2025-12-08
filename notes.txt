@@ -1,0 +1,7 @@
+visualization ideas:
+- comparrison prediction with actual results with a list of green good, red far off, orange ballpark
+- graph per race with temp/rain and how drivers perform
+- list of teams won most and when in the year (for predictions)
+- list of drivers won most and when in the year (for predictions)
+- home race impact pressure? (team or driver)
+- staafdiagram (animatie) door het seizoen heen (comparrison tussen prediction en actual result verschil +- posities )

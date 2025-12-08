@@ -9,7 +9,7 @@ def main():
     print(f"\nPredicted finishing order for season {season}:\n")
 
     # Sorting
-    preds_df = preds_df.sort_values(["season", "round", "pred_pos"]).reset_index(drop=True)
+    preds_df = preds_df.sort_values(["season", "round", "pred_pos", ]).reset_index(drop=True)
     preds_df["pred_rank"] = preds_df.groupby(["season", "round"]).cumcount() + 1  
 
     # Saving
