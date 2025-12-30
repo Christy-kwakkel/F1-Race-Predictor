@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 from config import GP_NAME_MAPPING
 
-def main():
+def predict_race():
     print("F1 Race Predictor")
 
     gp_input = input("Enter GP name (e.g. 'Monaco Grand Prix', 'Abu Dhabi Grand Prix'): ").strip()
@@ -31,4 +31,4 @@ def main():
             print(f"  • {gp}")
 
 if __name__ == "__main__":
-    main()
+    predict_race()

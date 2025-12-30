@@ -5,3 +5,9 @@ visualization ideas:
 - list of drivers won most and when in the year (for predictions)
 - home race impact pressure? (team or driver)
 - staafdiagram (animatie) door het seizoen heen (comparrison tussen prediction en actual result verschil +- posities )
+vergelijking tussen predictions en actual results
+
+
+
+in build compare:
+- predict race naast de actual results

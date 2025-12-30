@@ -2,6 +2,7 @@ import pandas as pd
 from pathlib import Path
 from src.data.kaggle_loader import load_kaggle_core
 import warnings
+from config import PROCESSED_DIR
 
 warnings.filterwarnings('ignore', category=pd.errors.SettingWithCopyWarning)
 
@@ -16,14 +17,22 @@ def save_2024_results():
     races_2024 = races[races["year"] == 2024]
 
     results_2024 = results.merge(races_2024[["raceId", "year", "round", "name"]], on="raceId")
+    results_2024 = results_2024.rename(columns={'name': 'name_x'})
+
     results_2024 = results_2024.merge(drivers[['driverId', 'driverRef', 'code']], on='driverId', how='left')
-    results_2024 = results_2024.merge(teams[['constructorId', 'name']], left_on='constructorId', right_on='constructorId', how='left')
+    results_2024 = results_2024.merge(
+        teams[['constructorId', 'name']],
+        on='constructorId',
+        how='left'
+    )
+    results_2024 = results_2024.rename(columns={'name': 'team_name'})
 
     final_results = pd.DataFrame({
         'season': results_2024['year'],
         'round': results_2024['round'],
         'raceId': results_2024['raceId'],
         'driver_code': results_2024['driverRef'],
+        'team_name': results_2024['team_name'],
         'code': results_2024['code'],
         'race_name': results_2024['name_x'],
         'grid_position': results_2024['grid'],
@@ -33,10 +42,8 @@ def save_2024_results():
 
     final_results = final_results.sort_values(["season", "round", "finishing_pos"]).reset_index(drop=True)
 
-    out_dir = Path('data/processed')
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    csv_path = out_dir / '2024_actual_results.csv'
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    csv_path = PROCESSED_DIR / '2024_actual_results.csv'
     final_results.to_csv(csv_path, index=False)
     
     print(f"Saved actual 2024 results: {csv_path}")

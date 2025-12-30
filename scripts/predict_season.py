@@ -1,6 +1,7 @@
 from src.model.predict import predict_single_season
 from pathlib import Path
 import pandas as pd
+from config import PROCESSED_DIR
 print("in file")
 
 def main():
@@ -13,9 +14,8 @@ def main():
     preds_df["pred_rank"] = preds_df.groupby(["season", "round"]).cumcount() + 1  
 
     # Saving
-    out_dir = Path("data/processed")
-    out_dir.mkdir(parents=True, exist_ok=True)
-    csv_path = out_dir / "2024_predictions.csv"
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    csv_path = PROCESSED_DIR / "2024_predictions.csv"
     preds_df.to_csv(csv_path, index=False)
     print(f"Saved predictions to {csv_path}")
 

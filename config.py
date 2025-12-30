@@ -1,6 +1,17 @@
+from pathlib import Path
 TRAIN_SEASONS = [2020, 2021]
 TEST_SEASONS = [2022, 2023]
 PREDICT_SEASONS = [2024]
+
+PARENT_ROOT = Path(r"C:\Users\chris\OneDrive\Desktop\Personal Project year 2\personal-project")
+
+PROCESSED_DIR = PARENT_ROOT / "data" / "processed"
+RAW_DIR       = PARENT_ROOT / "data" / "raw"
+
+ACTUAL_CSV     = PROCESSED_DIR / "2024_actual_results.csv"
+PREDICTION_CSV = PROCESSED_DIR / "2024_predictions.csv"
+
+FASTF1_CACHE_DIR = "data/external/fastf1_cache"
 
 FASTF1_CACHE_DIR = "data/external/fastf1_cache"
 
