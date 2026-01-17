@@ -5,6 +5,138 @@ from pathlib import Path
 from config import IMG_DIR, MODEL_PATH
 
 
+def add_driver_form_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add rolling average features for driver performance.
+    Calculates 3, 5, and 10-race rolling averages for position and points.
+    """
+    df = df.sort_values(["driver_code", "season", "round"]).copy()
+    
+    # Rolling averages for position (lower is better)
+    df["drv_avg_pos_3"] = (
+        df.groupby("driver_code")["position"]
+        .transform(lambda x: x.shift(1).rolling(3, min_periods=1).mean())
+    )
+    df["drv_avg_pos_5"] = (
+        df.groupby("driver_code")["position"]
+        .transform(lambda x: x.shift(1).rolling(5, min_periods=1).mean())
+    )
+    df["drv_avg_pos_10"] = (
+        df.groupby("driver_code")["position"]
+        .transform(lambda x: x.shift(1).rolling(10, min_periods=1).mean())
+    )
+    
+    # Rolling averages for points (higher is better)
+    df["drv_avg_pts_3"] = (
+        df.groupby("driver_code")["points"]
+        .transform(lambda x: x.shift(1).rolling(3, min_periods=1).mean())
+    )
+    df["drv_avg_pts_5"] = (
+        df.groupby("driver_code")["points"]
+        .transform(lambda x: x.shift(1).rolling(5, min_periods=1).mean())
+    )
+    df["drv_avg_pts_10"] = (
+        df.groupby("driver_code")["points"]
+        .transform(lambda x: x.shift(1).rolling(10, min_periods=1).mean())
+    )
+    
+    # Fill NaN with median for new drivers
+    for col in ["drv_avg_pos_3", "drv_avg_pos_5", "drv_avg_pos_10"]:
+        df[col] = df[col].fillna(df["position"].median())
+    
+    for col in ["drv_avg_pts_3", "drv_avg_pts_5", "drv_avg_pts_10"]:
+        df[col] = df[col].fillna(0)
+    
+    return df
+
+
+def add_team_form_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add rolling average features for team performance.
+    Calculates 3, 5, and 10-race rolling averages for position and points.
+    """
+    df = df.sort_values(["team_name", "season", "round"]).copy()
+    
+    # Rolling averages for position
+    df["team_avg_pos_3"] = (
+        df.groupby("team_name")["position"]
+        .transform(lambda x: x.shift(1).rolling(3, min_periods=1).mean())
+    )
+    df["team_avg_pos_5"] = (
+        df.groupby("team_name")["position"]
+        .transform(lambda x: x.shift(1).rolling(5, min_periods=1).mean())
+    )
+    df["team_avg_pos_10"] = (
+        df.groupby("team_name")["position"]
+        .transform(lambda x: x.shift(1).rolling(10, min_periods=1).mean())
+    )
+    
+    # Rolling averages for points
+    df["team_avg_pts_3"] = (
+        df.groupby("team_name")["points"]
+        .transform(lambda x: x.shift(1).rolling(3, min_periods=1).mean())
+    )
+    df["team_avg_pts_5"] = (
+        df.groupby("team_name")["points"]
+        .transform(lambda x: x.shift(1).rolling(5, min_periods=1).mean())
+    )
+    df["team_avg_pts_10"] = (
+        df.groupby("team_name")["points"]
+        .transform(lambda x: x.shift(1).rolling(10, min_periods=1).mean())
+    )
+    
+    # Fill NaN with median for new teams
+    for col in ["team_avg_pos_3", "team_avg_pos_5", "team_avg_pos_10"]:
+        df[col] = df[col].fillna(df["position"].median())
+    
+    for col in ["team_avg_pts_3", "team_avg_pts_5", "team_avg_pts_10"]:
+        df[col] = df[col].fillna(0)
+    
+    return df
+
+
+def finalize_features(df: pd.DataFrame):
+    """
+    Split dataframe into features (X), target (y), and metadata.
+    Encodes categorical variables and selects final feature set.
+    """
+    from sklearn.preprocessing import LabelEncoder
+    
+    # Encode driver and team
+    df = df.copy()
+    df["driver_id_enc"] = LabelEncoder().fit_transform(df["driver_code"])
+    df["team_id_enc"] = LabelEncoder().fit_transform(df["team_name"])
+    
+    # Define feature columns
+    feature_cols = [
+        'grid',
+        'team_id_enc', 'driver_id_enc',
+        'air_temp_mean', 'track_temp_mean', 'wind_speed_mean',
+        'humidity_mean', 'pressure_mean', 'rain_flag',
+        'drv_avg_pos_3', 'drv_avg_pos_5', 'drv_avg_pos_10',
+        'drv_avg_pts_3', 'drv_avg_pts_5', 'drv_avg_pts_10',
+        'team_avg_pos_3', 'team_avg_pos_5', 'team_avg_pos_10',
+        'team_avg_pts_3', 'team_avg_pts_5', 'team_avg_pts_10'
+    ]
+    
+    # Metadata columns for tracking predictions
+    meta_cols = ['season', 'round', 'driver_code', 'team_name']
+    
+    # Target
+    y = df['position']
+    
+    # Features
+    X = df[feature_cols].copy()
+    
+    # Fill any remaining NaN
+    X = X.fillna(X.median())
+    
+    # Metadata
+    meta = df[meta_cols].copy()
+    
+    return X, y, meta
+
+
 def plot_feature_importance():
     """
     Plot and save feature importance for Linear Regression model.
