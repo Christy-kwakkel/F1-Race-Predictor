@@ -1,0 +1,5 @@
+Model,MAE,R²
+Linear,2.435,0.675
+Extra Trees,2.532,0.645
+LGBM (baseline),2.533,N/A
+Random Forest,2.546,0.648

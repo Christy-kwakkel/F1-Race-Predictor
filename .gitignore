@@ -11,6 +11,7 @@ __pycache__/
 # Ignore data (raw files and large processed files)
 data/raw/
 data/processed/*.csv
+data/processed/*.parquet
 !data/processed/sample_*.csv   # keep small example files
 
 # Ignore model files

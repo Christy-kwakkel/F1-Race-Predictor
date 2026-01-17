@@ -5,15 +5,18 @@ PREDICT_SEASONS = [2024]
 
 PARENT_ROOT = Path(r"C:\Users\chris\OneDrive\Desktop\Personal Project year 2\personal-project")
 
-PROCESSED_DIR = PARENT_ROOT / "data" / "processed"
-RAW_DIR       = PARENT_ROOT / "data" / "raw"
+DATA_DIR = PARENT_ROOT / "data"
+PROCESSED_DIR = DATA_DIR / "processed"
+RAW_DIR = DATA_DIR / "raw"
+IMG_DIR = DATA_DIR / "img"
 
-ACTUAL_CSV     = PROCESSED_DIR / "2024_actual_results.csv"
+ACTUAL_CSV = PROCESSED_DIR / "2024_actual_results.csv"
 PREDICTION_CSV = PROCESSED_DIR / "2024_predictions.csv"
 
-FASTF1_CACHE_DIR = "data/external/fastf1_cache"
+FEATURES_PATH = PROCESSED_DIR / "features.parquet"
+MODEL_PATH = PROCESSED_DIR
 
-FASTF1_CACHE_DIR = "data/external/fastf1_cache"
+FASTF1_CACHE_DIR = DATA_DIR / "external"/ "fastf1_cache"
 
 # Updated raw Kaggle csv path
 KAGGLE_BASE = r"C:\Users\chris\OneDrive\Desktop\Personal Project year 2\trying\data\raw\kaggle_F1_data"
@@ -53,6 +56,3 @@ GP_NAME_MAPPING = {
 
 
 OPEN_METEO_URL = "https://archive-api.open-meteo.com/v1/archive"
-
-FEATURES_PATH = "data/processed/features.parquet"
-MODEL_PATH = "data/processed/model_lgbm.txt"

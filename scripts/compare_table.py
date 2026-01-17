@@ -46,16 +46,12 @@ def build_compare_table():
             # actual row i
             if i < len(actuals):
                 arow = actuals.iloc[i]
-                # if you have `code` and team_name in actuals, adjust as needed
                 actual_str = f"{(arow['finishing_pos']):>1} {arow['code'].upper():>4} ({arow['team_name']})"
                 arow['finishing_pos'] = int(arow['finishing_pos'])
             else:
                 actual_str = ""
 
-            # difference row
-            dif_str = ((prow['pred_rank']) - (arow['finishing_pos']) )
-
-            print(f"{pred_str:30s}  {actual_str:30s} {dif_str:20s}") 
+            print(f"{pred_str:30s}  {actual_str:30s}") 
 
     except ValueError as e:
         print(e)
