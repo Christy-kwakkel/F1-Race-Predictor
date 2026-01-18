@@ -54,8 +54,8 @@ CSV: PROCESSED_DIR/2024_predictions.csv
 
 Console: top 3 voorspelde coureurs per race (round).
 
-3.2. Één race voorspellen + bandenoverzicht
-predict_race.py voorspelt de uitslag van één Grand Prix en toont daarna welke band (compound) het meest gebruikt werd in de race.
+3.2. Één race voorspellen
+predict_race.py voorspelt de uitslag van één Grand Prix.
 
 bash
 
