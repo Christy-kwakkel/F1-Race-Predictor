@@ -75,7 +75,7 @@ Geordende lijst met voorspelde finish-volgorde:
 
 positie, driver code, teamnaam, predictiescore.
 
-5. Typische workflow
+4. Typische workflow
 (Eénmalig per setup) Dependencies installeren.
 
 (Optioneel, wanneer data verandert) save_2024_results en dan run_training uitvoeren.
