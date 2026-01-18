@@ -1,5 +1,5 @@
-Model,MAE,R²
-Linear,2.435,0.675
-Extra Trees,2.532,0.645
-LGBM (baseline),2.533,N/A
-Random Forest,2.546,0.648
+Model,R²,MAE,Median Error,RMSE,MAPE (%),95th % Error,MSE
+Linear Regression,0.675,2.435,1.802,3.290,0.4,7.282,10.827
+Extra Trees,0.657,2.501,1.856,3.381,0.4,7.336,11.431
+Random Forest,0.656,2.507,1.793,3.384,0.4,7.263,11.452
+LightGBM,0.652,2.554,1.862,3.404,0.4,7.475,11.589

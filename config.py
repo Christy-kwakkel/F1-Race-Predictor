@@ -19,13 +19,13 @@ MODEL_PATH = PROCESSED_DIR
 FASTF1_CACHE_DIR = DATA_DIR / "external"/ "fastf1_cache"
 
 # Updated raw Kaggle csv path
-KAGGLE_BASE = r"C:\Users\chris\OneDrive\Desktop\Personal Project year 2\trying\data\raw\kaggle_F1_data"
-KAGGLE_RACES_CSV = f"{KAGGLE_BASE}/races.csv"
-KAGGLE_RESULTS_CSV = f"{KAGGLE_BASE}/results.csv"
-KAGGLE_DRIVERS_CSV = f"{KAGGLE_BASE}/drivers.csv"
-KAGGLE_CONSTRUCTORS_CSV = f"{KAGGLE_BASE}/constructors.csv"
-KAGGLE_QUALI_CSV = f"{KAGGLE_BASE}/qualifying.csv"
-KAGGLE_CIRCUITS_CSV = f"{KAGGLE_BASE}/circuits.csv"
+KAGGLE_BASE = RAW_DIR / "kaggle F1 data"
+KAGGLE_RACES_CSV = KAGGLE_BASE / "races.csv"
+KAGGLE_RESULTS_CSV = KAGGLE_BASE / "results.csv"
+KAGGLE_DRIVERS_CSV = KAGGLE_BASE / "drivers.csv"
+KAGGLE_CONSTRUCTORS_CSV = KAGGLE_BASE / "constructors.csv"
+KAGGLE_QUALI_CSV = KAGGLE_BASE / "qualifying.csv"
+KAGGLE_CIRCUITS_CSV = KAGGLE_BASE / "circuits.csv"
 
 
 GP_NAME_MAPPING = {
