@@ -1,18 +1,19 @@
-github url of the project:
-https://github.com/Christy-kwakkel/F1-Race-Predictor
+# F1 Race Outcome Predictor
 
-F1 Race Outcome Predictor
 A data-driven project to predict Formula 1 race results using historical data, weather information and recent driver/team form.
 The core model is a Linear Regression trained on engineered features such as grid position, rolling performance metrics and weather variables, achieving a mean absolute error of roughly 2.2–2.5 race positions on recent seasons.
-​
 
-Installatie-voorbeeld:
+## Installatie-voorbeeld:
 
-    pip install -r requirements.txt
+pip install -r requirements.txt
 1. Data voorbereiden
 1.1. Echte resultaten 2024 opslaan
 Dit script slaat de echte race-uitslagen op van 2024 naar PROCESSED_DIR/2024_actual_results.csv.
+
+bash
+
     python -m scripts.save_2024_results
+
 Gebruik dit wanneer je de 2024-validatie opnieuw wilt genereren.
 
 2. Model trainen (volledige pipeline)
@@ -25,6 +26,9 @@ Model trainen op trainingsseizoenen
 Evaluatie op testseizoenen
 
 Run:
+
+bash
+
     python -m scripts.run_training
 
 Let op:
@@ -33,9 +37,16 @@ De features worden als parquet opgeslagen op de locatie uit config.FEATURES_PATH
 3. Voorspellingen draaien
 3.1. Heel seizoen voorspellen
 predict_season.py gebruikt het getrainde model om een compleet seizoen te voorspellen en slaat de uitkomst op als CSV.
+
+bash
+
     python -m scripts.predict_season
+
 Interactieve input:
-    Enter race season (e.g. 2024): – kies het seizoen.
+
+text
+Enter race season (e.g. 2024):
+– kies het seizoen.
 
 Output:
 
@@ -45,19 +56,24 @@ Console: top 3 voorspelde coureurs per race (round).
 
 3.2. Één race voorspellen + bandenoverzicht
 predict_race.py voorspelt de uitslag van één Grand Prix en toont daarna welke band (compound) het meest gebruikt werd in de race.
+
+bash
+
     python -m scripts.predict_race
+
 Interactieve input:
-    Enter GP name (e.g., 'Monaco', 'Silverstone', 'Monaco Grand Prix')
 
+text
+Enter GP name (e.g., 'Monaco', 'Silverstone', 'Monaco Grand Prix')
 Wordt gemapt via GP_NAME_MAPPING naar (event_name, round).
-    Enter season (e.g., 2024) or press Enter for 2024
 
+text
+Enter season (e.g., 2024) or press Enter for 2024
 Output (console):
 
 Geordende lijst met voorspelde finish-volgorde:
 
 positie, driver code, teamnaam, predictiescore.
-
 
 5. Typische workflow
 (Eénmalig per setup) Dependencies installeren.
@@ -69,9 +85,3 @@ Tijdens ontwikkeling:
 predict_season gebruiken voor volledige seizoen-run.
 
 predict_race gebruiken voor snelle racechecks en oral exam demo.
-
-Voor analyse/rapport:
-
-Feature importance plotten.
-
-Eventueel aanvullende visualisaties draaien in notebooks of extra scripts.
