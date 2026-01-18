@@ -11,3 +11,13 @@ vergelijking tussen predictions en actual results
 
 in build compare:
 - predict race naast de actual results
+
+
+
+feature importance list maken voor miss in visualization maar sws in feature engineering
+
+
+what tyres have been use
+fastest pitstop and by who in which round per race
+fastest lap time and by who in which round
+quali positions or/and times

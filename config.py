@@ -1,6 +1,6 @@
 from pathlib import Path
-TRAIN_SEASONS = [2020, 2021]
-TEST_SEASONS = [2022, 2023]
+TRAIN_SEASONS = [2020, 2021, 2022]
+TEST_SEASONS = [2023]
 PREDICT_SEASONS = [2024]
 
 PARENT_ROOT = Path(r"C:\Users\chris\OneDrive\Desktop\Personal Project year 2\personal-project")
