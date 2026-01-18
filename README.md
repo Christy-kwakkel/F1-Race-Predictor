@@ -8,14 +8,13 @@ The core model is a Linear Regression trained on engineered features such as gri
 
 Installatie-voorbeeld:
 
-bash
-pip install -r requirements.txt
+    pip install -r requirements.txt
 1. Data voorbereiden
 1.1. Echte resultaten 2024 opslaan
 Dit script slaat de echte race-uitslagen op van 2024 naar PROCESSED_DIR/2024_actual_results.csv.
 
-bash
-python -m scripts.save_2024_results
+
+    python -m scripts.save_2024_results
 Gebruik dit wanneer je de 2024-validatie opnieuw wilt genereren.
 
 2. Model trainen (volledige pipeline)
@@ -29,21 +28,19 @@ Evaluatie op testseizoenen
 
 Run:
 
-bash
-python -m scripts.run_training
-Let op:
+    python -m scripts.run_training
 
+Let op:
 De features worden als parquet opgeslagen op de locatie uit config.FEATURES_PATH.
 
 3. Voorspellingen draaien
 3.1. Heel seizoen voorspellen
 predict_season.py gebruikt het getrainde model om een compleet seizoen te voorspellen en slaat de uitkomst op als CSV.
 
-bash
-python -m scripts.predict_season
+    python -m scripts.predict_season
 Interactieve input:
 
-Enter race season (e.g. 2024): – kies het seizoen.
+    Enter race season (e.g. 2024): – kies het seizoen.
 
 Output:
 
@@ -54,15 +51,14 @@ Console: top 3 voorspelde coureurs per race (round).
 3.2. Één race voorspellen + bandenoverzicht
 predict_race.py voorspelt de uitslag van één Grand Prix en toont daarna welke band (compound) het meest gebruikt werd in de race.
 
-bash
-python -m scripts.predict_race
+    python -m scripts.predict_race
 Interactieve input:
 
-Enter GP name (e.g., 'Monaco', 'Silverstone', 'Monaco Grand Prix')
+    Enter GP name (e.g., 'Monaco', 'Silverstone', 'Monaco Grand Prix')
 
 Wordt gemapt via GP_NAME_MAPPING naar (event_name, round).
 
-Enter season (e.g., 2024) or press Enter for 2024
+    Enter season (e.g., 2024) or press Enter for 2024
 
 Output (console):
 
