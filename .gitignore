@@ -5,26 +5,18 @@ venv/
 __pycache__/
 *.pyc
 
-# Ignore Jupyter notebook checkpoints
-.ipynb_checkpoints/
-
-# Ignore data (raw files and large processed files)
-data/raw/
-data/processed/*.csv
-data/processed/*.parquet
-!data/processed/sample_*.csv   # keep small example files
+# Ignore ALL data files in data folder
+data/
+!data/.gitkeep
+!data/*/
+!data/*/.gitkeep
 
 # Ignore model files
 models/
 *.pkl
 *.joblib
 
-# Ignore OS-specific files
-.DS_Store
-Thumbs.db
-
 # Ignore FastF1 cache and large files
-data/external/fastf1_cache/
 *.sqlite
 
 # Ignore logs, temporary files, and IDE files
@@ -33,6 +25,6 @@ data/external/fastf1_cache/
 .vscode/
 .idea/
 
-# Ignore local environment files (if used)
+# Ignore local environment files
 .env
 .env.local
