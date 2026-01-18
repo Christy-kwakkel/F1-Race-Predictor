@@ -1,5 +1,5 @@
 github url of the project:
-[text](https://github.com/Christy-kwakkel/F1-Race-Predictor)
+https://github.com/Christy-kwakkel/F1-Race-Predictor
 
 F1 Race Outcome Predictor
 A data-driven project to predict Formula 1 race results using historical data, weather information and recent driver/team form.
