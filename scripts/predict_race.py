@@ -1,3 +1,4 @@
+# python -m scripts.predict_race
 from src.model.predict import predict_single_race, resolve_gp_name
 from pathlib import Path
 import pandas as pd
